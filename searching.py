@@ -31,26 +31,41 @@ def read_data(file_name, field):
 
 def linear_search(sequence, number):
         positions = []
+        count = 0
         for n in sequence:
             if n == number:
-                positions.append(sequence.index(n))
+                positions.append(sequence.index(n) + 1)
+                count += 1
             else:
                 continue
 
-        count = len(positions)
         output = { "positions" : positions, "count" : count }
         if positions == [] and count == 0:
             return "Hledané číslo není v sekvenci.", output
         return output
 
+        # asymptotická složitost nejlepší scénář big O(1), nejhorší scénář big O(n)
+
+
+def pattern_search(seq, vzor):
+    positions = []
+    for i in range(len(seq) - len(vzor) + 1):
+        win = seq[i:i+len(vzor)]
+        if win == vzor:
+            positions.append(i)
+        else:
+            continue
+    return set(positions)
+
 
 def main():
     sequential_data = read_data("sequential.json", "unordered_numbers")
     # print(sequential_data)
-    number = 15
+    number = 63
     linearni_hledani = linear_search(sequential_data, number)
-    print(linearni_hledani)
-
+    # print(linearni_hledani)
+    hledani_vzoru = pattern_search(read_data("sequential.json", "dna_sequence"), "ATA")
+    print(hledani_vzoru)
 
 if __name__ == '__main__':
     main()
